@@ -1,4 +1,3 @@
-import pickle
 import matplotlib.pyplot as plt
 from constants import *
 from player import Player
