@@ -20,9 +20,16 @@ target_id = p.createMultiBody(baseVisualShapeIndex=target_visual)
 # -------------------------------
 # Target Randomization Function
 # -------------------------------
+
+def random_coordinate():
+    while True:
+        coordinate = round(random.uniform(-0.6, 0.6), 1)
+        if coordinate < -0.1 or coordinate > 0.1:
+            return coordinate
+
 def randomize_target():
-    x = round(random.uniform(-0.6, 0.6), 1)
-    y = round(random.uniform(-0.6, 0.6), 1)
+    x = random_coordinate()
+    y = random_coordinate()
     z = round(random.uniform(0.1, 0.6), 1)
     p.resetBasePositionAndOrientation(target_id, [x, y, z], [0, 0, 0, 1])
     return [x, y, z]
@@ -43,7 +50,7 @@ agent = KukaAgent(q_table, kukaId, target_id)
 # -------------------------------
 # Main Simulation Loop
 # -------------------------------
-for episode in range(10):
+for episode in range(15):
     logging.info(f"=== Episode {episode+1} ===")
 
     target = randomize_target()
@@ -52,7 +59,7 @@ for episode in range(10):
     for step in range(500):
         agent.step()
         p.stepSimulation()
-        time.sleep(0.002)
+        time.sleep(0.02)
 
         if agent.reached_target():
             logging.info(f'=== Target Reached! in {round(time.time() - time_start, 3)} s ===')
