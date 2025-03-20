@@ -4,6 +4,8 @@ import time
 from constants import *
 from qtable import QTable
 from kuka_agent import KukaAgent
+import random
+
 
 p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())

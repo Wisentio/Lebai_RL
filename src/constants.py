@@ -1,5 +1,4 @@
 import numpy as np
-import random
 import logging
 from logging import info, basicConfig as logging_confing
 
@@ -16,7 +15,7 @@ ENEMY_PENALTY = 300  # feel free to tinker with these!
 FOOD_REWARD = 25  # feel free to tinker with these!
 epsilon = 0.5  # randomness
 EPS_DECAY = 0.9999  # Every episode will be epsilon*EPS_DECAY
-SHOW_EVERY = 5000  # how often to play through env visually.
+SHOW_EVERY = 50000  # how often to play through env visually.
 PROXIMITY_THREASHOLD = 0.05
 LEARNING_RATE = 0.1
 DISCOUNT = 0.95

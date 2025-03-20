@@ -39,36 +39,23 @@ class Player:
 
     def move(self, x=False, y=False, z=False):
 
-        if not x:
-            self.x += random.choice([-DSIZE, 0, DSIZE])
-        else:
-            self.x += x
+        self.x += x if x else random.choice([-DSIZE, 0, DSIZE])
+        self.y += y if y else random.choice([-DSIZE, 0, DSIZE])
+        self.z += z if z else random.choice([-DSIZE, 0, DSIZE])
+
         self.x = round(self.x, 1)
-
-        if not y:
-            self.y += random.choice([-DSIZE, 0, DSIZE])
-        else:
-            self.y += y
         self.y = round(self.y, 1)
-
-        if not z:
-            self.z += random.choice([-DSIZE, 0, DSIZE])
-        else:
-            self.z += z
         self.z = round(self.z, 1)
 
-        if self.x < -SIZE/2:
-            self.x = -SIZE/2
-        elif self.x > SIZE/2:
-            self.x = SIZE/2
-        if self.y < -SIZE/2:
-            self.y = -SIZE/2
-        elif self.y > SIZE/2:
-            self.y = SIZE/2 
-        if self.z < 0:
-            self.z = 0
-        elif self.z > SIZE/2:
-            self.z = SIZE/2 
+        # Workspace bounds
+        self.x = min(max(self.x, -SIZE/2), SIZE/2)
+        self.y = min(max(self.y, -SIZE/2), SIZE/2)
+        self.z = min(max(self.z, 0), SIZE/2)
+
+        # Avoid middle
+        if -0.1 <= self.x <= 0.1 and -0.1 <= self.y <= 0.1:
+            self.x = -0.2 if self.x < 0 else 0.2
+            self.y = -0.2 if self.y < 0 else 0.2
 
 if __name__ == '__main__':
     gripper = Player()

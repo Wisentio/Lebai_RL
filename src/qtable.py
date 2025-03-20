@@ -23,7 +23,6 @@ class QTable:
             info(f"Loaded Q-table from {load_path}")
         else:
             self.q_table = np.random.uniform(-5, 0, shape)
-            info(self.q_table)
             info(f"Initialized new Q-table with shape {self.q_table.shape}")
     
     def coord_to_idx(self, obs):
