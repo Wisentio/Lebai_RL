@@ -15,30 +15,25 @@ try:
         effector = Player()
         target = Player()
 
-        if episode % SHOW_EVERY == 0:
+        if episode % SHOW_EVERY == 0:  
             info(f'{episode} episodes')
-            # print(f"on #{episode}, epsilon is {epsilon}")
-            # print(f"{SHOW_EVERY} ep mean: {np.mean(episode_rewards[-SHOW_EVERY:])}")
-        #     show = True
-        # else:
-        #     show = False
 
         episode_reward = 0
 
         for _ in range(200):
             obs = (effector-target)
-            #print(obs)
+
+            # Get the action
             if np.random.random() > epsilon:
-                # GET THE ACTION
+                
                 action = np.argmax(q_table.get_qs(obs))
             else:
                 action = np.random.randint(0, 8)
+
             # Take the action!
             effector.action(action)
 
-            #### MAYBE ###
             target.move()
-            ##############
 
             new_obs = (effector-target)
 
@@ -49,7 +44,6 @@ try:
                 reward = -MOVE_PENALTY
 
             # Update q_table
-
             if reward == FOOD_REWARD:
                 new_q = FOOD_REWARD
             else:
