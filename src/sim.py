@@ -26,7 +26,7 @@ target_id = p.createMultiBody(baseVisualShapeIndex=target_visual)
 def random_coordinate():
     while True:
         coordinate = round(random.uniform(-0.6, 0.6), 1)
-        if coordinate < -0.1 or coordinate > 0.1:
+        if coordinate <= -0.3 or coordinate >= 0.3:
             return coordinate
 
 def randomize_target():
@@ -52,19 +52,59 @@ agent = KukaAgent(q_table, kukaId, target_id)
 # -------------------------------
 # Main Simulation Loop
 # -------------------------------
-for episode in range(15):
+
+initial_joint_positions = [0, -0.6, 0, 1.2, 0, -0.6, 0]
+
+for joint_index in range(p.getNumJoints(kukaId)):
+    p.resetJointState(kukaId, joint_index, initial_joint_positions[joint_index])
+
+paused = False
+
+for episode in range(1500):
+
     logging.info(f"=== Episode {episode+1} ===")
 
     target = randomize_target()
     time_start = time.time()
 
     for step in range(500):
-        agent.step()
-        p.stepSimulation()
-        time.sleep(0.02)
+        keys = p.getKeyboardEvents()
 
-        if agent.reached_target():
+        # Toggle pause with SPACEBAR
+        if ord(' ') in keys and keys[ord(' ')] & p.KEY_WAS_TRIGGERED:
+            paused = not paused
+            if paused:
+                logging.info("== Paused ==")
+            else:
+                logging.info("== Unpaused ==")
+
+        if not paused:
+            if step % DISPLAY_EVERY == 0:
+                agent.step(True)
+            else:
+                agent.step()
+            p.stepSimulation()
+
+        time.sleep(0.0002)
+
+        if not paused and agent.reached_target():
             logging.info(f'=== Target Reached! in {round(time.time() - time_start, 3)} s ===')
             break
+    # logging.info(f"=== Episode {episode+1} ===")
+
+    # target = randomize_target()
+    # time_start = time.time()
+
+    # for step in range(500):
+    #     if step % DISPLAY_EVERY == 0:
+    #         agent.step(True)
+    #     else:
+    #         agent.step()
+    #     p.stepSimulation()
+    #     time.sleep(0.0002)
+
+    #     if agent.reached_target():
+    #         logging.info(f'=== Target Reached! in {round(time.time() - time_start, 3)} s ===')
+    #         break
 
 p.disconnect()

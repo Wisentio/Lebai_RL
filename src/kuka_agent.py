@@ -31,7 +31,7 @@ class KukaAgent:
         pos, _ = p.getBasePositionAndOrientation(self.target_id)
         return np.array([round(coord,1) for coord in pos])
 
-    def step(self):
+    def step(self, show=False):
         effector_pos = self.get_effector_position()
         target_pos = self.get_target_position()
         diff = target_pos - effector_pos
@@ -39,7 +39,10 @@ class KukaAgent:
         obs = (round(diff[0], 1), round(diff[1], 1), round(diff[2], 1))
         action = np.argmax(self.q_table.get_qs(obs))
         movement = self.actions[action] * axis_flip
-        next_pos = effector_pos + movement
+        next_pos = effector_pos + movement      
+        if show: 
+            info(f'Action is : {action}')
+            info(f'Effector pose : {effector_pos}')
 
         if self.debug:
             print(f"Effector Pos: {effector_pos}")

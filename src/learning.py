@@ -4,7 +4,7 @@ from player import Player
 from qtable import QTable
 
 
-start_q_table = None  # if we have a pickled Q table, we'll put the filename of it here.
+start_q_table = "qtable.npy"  # if we have a pickled Q table, we'll put the filename of it here.
 
 episode_rewards = []
 

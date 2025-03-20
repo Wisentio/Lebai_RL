@@ -53,9 +53,9 @@ class Player:
         self.z = min(max(self.z, 0), SIZE/2)
 
         # Avoid middle
-        if -0.1 <= self.x <= 0.1 and -0.1 <= self.y <= 0.1:
-            self.x = -0.2 if self.x < 0 else 0.2
-            self.y = -0.2 if self.y < 0 else 0.2
+        if -0.2 <= self.x <= 0.2 and -0.2 <= self.y <= 0.2:
+            self.x = -0.3 if self.x < 0 else 0.3
+            self.y = -0.3 if self.y < 0 else 0.3
 
 if __name__ == '__main__':
     gripper = Player()

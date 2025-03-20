@@ -9,13 +9,14 @@ logging_confing(
 )
 SIZE = 2
 DSIZE = 0.1
-HM_EPISODES = 250000
+HM_EPISODES = 2500
 MOVE_PENALTY = 1  # feel free to tinker with these!
 ENEMY_PENALTY = 300  # feel free to tinker with these!
 FOOD_REWARD = 25  # feel free to tinker with these!
 epsilon = 0.5  # randomness
 EPS_DECAY = 0.9999  # Every episode will be epsilon*EPS_DECAY
-SHOW_EVERY = 50000  # how often to play through env visually.
+SHOW_EVERY = HM_EPISODES / 10  # how often to play through env visually.
+DISPLAY_EVERY = 50
 PROXIMITY_THREASHOLD = 0.05
 LEARNING_RATE = 0.1
 DISCOUNT = 0.95
