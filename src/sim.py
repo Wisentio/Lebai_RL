@@ -46,7 +46,8 @@ def defined_target():
 # -------------------------------
 # Load Q-table & Start Agent
 # -------------------------------
-q_table = QTable(x_coordinates, y_coordinates, z_coordinates, num_actions=8, load_path="qtable.npy")
+
+q_table = QTable(x_coordinates, y_coordinates, z_coordinates, num_actions=8, load_path="N:\\AC\\vier_jahre\\Bachelor_thesys\\Lebai_RL\\src\\results\\qtable.npy")
 agent = KukaAgent(q_table, kukaId, target_id)
 
 # -------------------------------
