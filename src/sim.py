@@ -5,7 +5,7 @@ from constants import *
 from qtable import QTable
 from kuka_agent import KukaAgent
 import random
-
+import os
 
 p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
@@ -25,7 +25,7 @@ target_id = p.createMultiBody(baseVisualShapeIndex=target_visual)
 
 def random_coordinate():
     while True:
-        coordinate = round(random.uniform(-0.6, 0.6), 1)
+        coordinate = round(random.uniform(0, 0.6), 1)
         if coordinate <= -0.3 or coordinate >= 0.3:
             return coordinate
 
@@ -47,14 +47,22 @@ def defined_target():
 # Load Q-table & Start Agent
 # -------------------------------
 
-q_table = QTable(x_coordinates, y_coordinates, z_coordinates, num_actions=8, load_path="N:\\AC\\vier_jahre\\Bachelor_thesys\\Lebai_RL\\src\\results\\qtable.npy")
+# Get current working directory
+current_dir = os.getcwd()
+
+# Build the file path
+print(current_dir)
+file_path = current_dir + "/src/results/qtable.npy"
+print(f'FIle path is {file_path}')
+
+q_table = QTable(x_coordinates, y_coordinates, z_coordinates, num_actions=8, load_path=file_path)
 agent = KukaAgent(q_table, kukaId, target_id)
 
 # -------------------------------
 # Main Simulation Loop
 # -------------------------------
 
-initial_joint_positions = [0, -0.6, 0, 1.2, 0, -0.6, 0]
+initial_joint_positions = [-0.5, -0.6, 0, 1.2, 0, -0.6, 0]
 
 for joint_index in range(p.getNumJoints(kukaId)):
     p.resetJointState(kukaId, joint_index, initial_joint_positions[joint_index])
@@ -86,7 +94,7 @@ for episode in range(1500):
                 agent.step()
             p.stepSimulation()
 
-        time.sleep(0.0002)
+        time.sleep(0.02)
 
         if not paused and agent.reached_target():
             logging.info(f'=== Target Reached! in {round(time.time() - time_start, 3)} s ===')
